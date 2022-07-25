@@ -1,12 +1,23 @@
 <?php
-class Post {
+
+class Post
+{
+
+    /**
+     * @var Database
+     */
     private $db;
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->db = new Database;
     }
 
-    public function getPosts(){
+    /**
+     * @return mixed
+     */
+    public function getPosts()
+    {
         $this->db->query('SELECT *,
                         posts.id as postId,
                         users.id as userId,
@@ -18,12 +29,15 @@ class Post {
                         ORDER BY posts.created_at DESC
                         ');
 
-        $results = $this->db->resultSet();
-
-        return $results;
+        return $this->db->resultSet();
     }
 
-    public function addPost($data){
+    /**
+     * @param $data
+     * @return bool
+     */
+    public function addPost($data)
+    {
         $this->db->query('INSERT INTO posts (title, user_id, body) VALUES(:title, :user_id, :body)');
         // Bind values
         $this->db->bind(':title', $data['title']);
@@ -31,14 +45,19 @@ class Post {
         $this->db->bind(':body', $data['body']);
 
         // Execute
-        if($this->db->execute()){
+        if ($this->db->execute()) {
             return true;
         } else {
             return false;
         }
     }
 
-    public function updatePost($data){
+    /**
+     * @param $data
+     * @return bool
+     */
+    public function updatePost($data)
+    {
         $this->db->query('UPDATE posts SET title = :title, body = :body WHERE id = :id');
         // Bind values
         $this->db->bind(':id', $data['id']);
@@ -46,14 +65,19 @@ class Post {
         $this->db->bind(':body', $data['body']);
 
         // Execute
-        if($this->db->execute()){
+        if ($this->db->execute()) {
             return true;
         } else {
             return false;
         }
     }
 
-    public function getPostById($id){
+    /**
+     * @param $id
+     * @return mixed
+     */
+    public function getPostById($id)
+    {
         $this->db->query('SELECT * FROM posts WHERE id = :id');
         $this->db->bind(':id', $id);
 
@@ -62,13 +86,18 @@ class Post {
         return $row;
     }
 
-    public function deletePost($id){
+    /**
+     * @param $id
+     * @return bool
+     */
+    public function deletePost($id)
+    {
         $this->db->query('DELETE FROM posts WHERE id = :id');
         // Bind values
         $this->db->bind(':id', $id);
 
         // Execute
-        if($this->db->execute()){
+        if ($this->db->execute()) {
             return true;
         } else {
             return false;

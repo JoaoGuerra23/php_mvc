@@ -1,7 +1,10 @@
 <?php
-class Posts extends Controller {
-    public function __construct(){
-        if(!isLoggedIn()){
+
+class Posts extends Controller
+{
+    public function __construct()
+    {
+        if (!isLoggedIn()) {
             redirect('users/login');
         }
 
@@ -9,7 +12,12 @@ class Posts extends Controller {
         $this->userModel = $this->model('User');
     }
 
-    public function index(){
+
+    /**
+     * @return void
+     */
+    public function index()
+    {
         // Get posts
         $posts = $this->postModel->getPosts();
 
@@ -20,8 +28,12 @@ class Posts extends Controller {
         $this->view('posts/index', $data);
     }
 
-    public function add(){
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    /**
+     * @return void
+     */
+    public function add()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Sanitize POST array
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
@@ -34,17 +46,17 @@ class Posts extends Controller {
             ];
 
             // Validate data
-            if(empty($data['title'])){
+            if (empty($data['title'])) {
                 $data['title_err'] = 'Please enter title';
             }
-            if(empty($data['body'])){
+            if (empty($data['body'])) {
                 $data['body_err'] = 'Please enter body text';
             }
 
             // Make sure no errors
-            if(empty($data['title_err']) && empty($data['body_err'])){
+            if (empty($data['title_err']) && empty($data['body_err'])) {
                 // Validated
-                if($this->postModel->addPost($data)){
+                if ($this->postModel->addPost($data)) {
                     flash('post_message', 'Post Added');
                     redirect('posts');
                 } else {
@@ -65,8 +77,13 @@ class Posts extends Controller {
         }
     }
 
-    public function edit($id){
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    /**
+     * @param $id
+     * @return void
+     */
+    public function edit($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Sanitize POST array
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
@@ -80,17 +97,17 @@ class Posts extends Controller {
             ];
 
             // Validate data
-            if(empty($data['title'])){
+            if (empty($data['title'])) {
                 $data['title_err'] = 'Please enter title';
             }
-            if(empty($data['body'])){
+            if (empty($data['body'])) {
                 $data['body_err'] = 'Please enter body text';
             }
 
             // Make sure no errors
-            if(empty($data['title_err']) && empty($data['body_err'])){
+            if (empty($data['title_err']) && empty($data['body_err'])) {
                 // Validated
-                if($this->postModel->updatePost($data)){
+                if ($this->postModel->updatePost($data)) {
                     flash('post_message', 'Post Updated');
                     redirect('posts');
                 } else {
@@ -106,7 +123,7 @@ class Posts extends Controller {
             $post = $this->postModel->getPostById($id);
 
             // Check for owner
-            if($post->user_id != $_SESSION['user_id']){
+            if ($post->user_id != $_SESSION['user_id']) {
                 redirect('posts');
             }
 
@@ -120,7 +137,12 @@ class Posts extends Controller {
         }
     }
 
-    public function show($id){
+    /**
+     * @param $id
+     * @return void
+     */
+    public function show($id)
+    {
         $post = $this->postModel->getPostById($id);
         $user = $this->userModel->getUserById($post->user_id);
 
@@ -132,17 +154,22 @@ class Posts extends Controller {
         $this->view('posts/show', $data);
     }
 
-    public function delete($id){
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    /**
+     * @param $id
+     * @return void
+     */
+    public function delete($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // Get existing post from model
             $post = $this->postModel->getPostById($id);
 
             // Check for owner
-            if($post->user_id != $_SESSION['user_id']){
+            if ($post->user_id != $_SESSION['user_id']) {
                 redirect('posts');
             }
 
-            if($this->postModel->deletePost($id)){
+            if ($this->postModel->deletePost($id)) {
                 flash('post_message', 'Post Removed');
                 redirect('posts');
             } else {

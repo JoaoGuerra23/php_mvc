@@ -1,21 +1,27 @@
 <?php
-/*
+
+/**
  * App Core Class
  * Creates URL & Loads Core Controller
  * URL FORMAT - /controller/method/params
  */
-
 class Core
 {
-
+    /**
+     * @var string
+     */
     protected $currentController = 'Pages';
+    /**
+     * @var string
+     */
     protected $currentMethod = 'index';
+    /**
+     * @var array
+     */
     protected $params = [];
 
     public function __construct()
     {
-        //$this->getUrl();
-
         $url = $this->getUrl();
 
         //Look in controllers for controller for first value
@@ -24,7 +30,6 @@ class Core
             $this->currentController = ucwords($url[0]);
             //Unset 0 Index
             unset($url[0]);
-
         }
 
         //Require de controller
@@ -32,6 +37,8 @@ class Core
 
         //Instantiate controller class
         $this->currentController = new $this->currentController;
+
+        //Debugging
         //var_dump($url, $_GET, $_SERVER['REQUEST_URI']);
         //exit();
 
@@ -49,10 +56,11 @@ class Core
 
         // Call a callback with array of params
         call_user_func_array([$this->currentController, $this->currentMethod], $this->params);
-
-
     }
 
+    /**
+     * @return false|string[]|void
+     */
     public function getUrl()
     {
 

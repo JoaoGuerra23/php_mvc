@@ -1,6 +1,6 @@
 <?php
-//DB Params
 
+//DB Params
 define('DB_HOST', 'sql-master1');
 define('DB_USER', 'sandbox');
 define('DB_PASS', 'sandbox');
@@ -13,6 +13,6 @@ define('APPROOT', dirname(dirname(__FILE__)));
 define('URLROOT', 'http://sandbox.exads.rocks');
 
 // Site Name
-define('SITENAME', 'SharePosts');
+define('SITENAME', 'WebsiteName');
 // App Version
 define('APPVERSION', '1.0.0');

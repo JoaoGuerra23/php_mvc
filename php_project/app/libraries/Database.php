@@ -1,24 +1,45 @@
 <?php
 
-/*
+/**
  * PDO Database class
  * Connect to database
  * Create prepared statements
  * Bind values
  * Return rows and results
  */
-
 class Database
 {
 
+    /**
+     * @var string
+     */
     private $host = DB_HOST;
+    /**
+     * @var string
+     */
     private $user = DB_USER;
+    /**
+     * @var string
+     */
     private $pass = DB_PASS;
+    /**
+     * @var string
+     */
     private $dbname = DB_NAME;
 
+    /**
+     * @var PDO
+     */
     private $dbh;
+    /**
+     * @var
+     */
     private $stmt;
+    /**
+     * @var string
+     */
     private $error;
+
 
     public function __construct()
     {
@@ -31,18 +52,21 @@ class Database
 
         //Create a PDO Instance
         try {
-
             $this->dbh = new PDO($dsn, $this->user, $this->pass, $options);
 
         } catch (PDOException $e) {
             $this->error = $e->getMessage();
             exit ($this->error . 'Hello ' . $dsn);
         }
-
     }
 
-
-    //prepare statement with query
+    /**
+     *
+     * prepare statement with query
+     *
+     * @param $sql
+     * @return void
+     */
     public function query($sql)
     {
 
@@ -50,7 +74,15 @@ class Database
 
     }
 
-    //Bind values
+    /**
+     *
+     * Bind values
+     *
+     * @param $param
+     * @param $value
+     * @param $type
+     * @return void
+     */
     public function bind($param, $value, $type = null)
     {
 
@@ -74,13 +106,23 @@ class Database
 
     }
 
-    //Execute the prepared statement
+    /**
+     *
+     * Execute the prepared statement
+     *
+     * @return mixed
+     */
     public function execute()
     {
         return $this->stmt->execute();
     }
 
-    //Get result set as array of objects
+    /**
+     *
+     * Get result set as array of objects
+     *
+     * @return mixed
+     */
     public function resultSet()
     {
 
@@ -89,7 +131,13 @@ class Database
 
     }
 
-    //Get single record as object
+
+    /**
+     *
+     * Get single record as object
+     *
+     * @return mixed
+     */
     public function single()
     {
 
@@ -98,7 +146,12 @@ class Database
 
     }
 
-    //Get row count
+    /**
+     *
+     * Get row count
+     *
+     * @return mixed
+     */
     public function rowCount()
     {
 
