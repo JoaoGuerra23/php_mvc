@@ -2,12 +2,31 @@
 
 namespace App\Controllers;
 
+use App\Helpers\SessionHelper;
+use App\Helpers\UrlHelper;
+
 /**
  * Base Controller
- * Loads the models and views
+ * Loads the Models and Views
  */
 abstract class AbstractController
 {
+    /**
+     * @var SessionHelper
+     */
+    protected $sessionHelper;
+    /**
+     * @var UrlHelper
+     */
+    protected $urlHelper;
+
+    public function __construct()
+    {
+
+        $this->sessionHelper = new SessionHelper();
+        $this->urlHelper = new UrlHelper();
+
+    }
 
     /**
      *
@@ -19,7 +38,7 @@ abstract class AbstractController
     public function model($model)
     {
         // Require model file
-        require_once '../app/models/' . $model . '.php';
+        require_once '../App/Models/' . $model . '.php';
 
         // Instantiate model
         return new $model();
@@ -36,8 +55,8 @@ abstract class AbstractController
     public function view($view, $data = [])
     {
         // Check for view file
-        if (file_exists('../app/views/' . $view . '.php')) {
-            require_once '../app/views/' . $view . '.php';
+        if (file_exists('../App/Views/' . $view . '.php')) {
+            require_once '../App/Views/' . $view . '.php';
         } else {
             // View does not exist
             die('View does not exist');

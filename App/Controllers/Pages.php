@@ -15,7 +15,7 @@ class Pages extends AbstractController
             'description' => 'Simple social network built with PHP'
         ];
 
-        $this->view('pages/index', $data);
+        $this->view('Pages/index', $data);
     }
 
     /**
@@ -25,9 +25,9 @@ class Pages extends AbstractController
     {
         $data = [
             'title' => 'About Us',
-            'description' => 'App to share posts with other users'
+            'description' => 'App to share Posts with other Users'
         ];
 
-        $this->view('pages/about', $data);
+        $this->view('Pages/about', $data);
     }
 }

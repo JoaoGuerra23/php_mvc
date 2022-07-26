@@ -2,12 +2,26 @@
 
 namespace App\Controllers;
 
+use App\Helpers\SessionHelper;
+use App\Helpers\UrlHelper;
+
 class Posts extends AbstractController
 {
+    /**
+     * @var mixed
+     */
+    private $postModel;
+    /**
+     * @var mixed
+     */
+    private $userModel;
+
+
     public function __construct()
     {
-        if (!isLoggedIn()) {
-            redirect('users/login');
+
+        if (!$this->sessionHelper->isLoggedIn()) {
+            $this->urlHelper->redirect('users/login');
         }
 
         $this->postModel = $this->model('Post');
@@ -20,14 +34,14 @@ class Posts extends AbstractController
      */
     public function index()
     {
-        // Get posts
+        // Get Posts
         $posts = $this->postModel->getPosts();
 
         $data = [
-            'posts' => $posts
+            'Posts' => $posts
         ];
 
-        $this->view('posts/index', $data);
+        $this->view('Posts/index', $data);
     }
 
     /**
@@ -59,14 +73,14 @@ class Posts extends AbstractController
             if (empty($data['title_err']) && empty($data['body_err'])) {
                 // Validated
                 if ($this->postModel->addPost($data)) {
-                    flash('post_message', 'Post Added');
-                    redirect('posts');
+                    $this->sessionHelper->flash('post_message', 'Post Added');
+                    $this->urlHelper->redirect('Posts');
                 } else {
                     die('Something went wrong');
                 }
             } else {
                 // Load view with errors
-                $this->view('posts/add', $data);
+                $this->view('Posts/add', $data);
             }
 
         } else {
@@ -75,7 +89,7 @@ class Posts extends AbstractController
                 'body' => ''
             ];
 
-            $this->view('posts/add', $data);
+            $this->view('Posts/add', $data);
         }
     }
 
@@ -110,14 +124,14 @@ class Posts extends AbstractController
             if (empty($data['title_err']) && empty($data['body_err'])) {
                 // Validated
                 if ($this->postModel->updatePost($data)) {
-                    flash('post_message', 'Post Updated');
-                    redirect('posts');
+                    $this->sessionHelper->flash('post_message', 'Post Updated');
+                    $this->urlHelper->redirect('Posts');
                 } else {
                     die('Something went wrong');
                 }
             } else {
                 // Load view with errors
-                $this->view('posts/edit', $data);
+                $this->view('Posts/edit', $data);
             }
 
         } else {
@@ -126,7 +140,7 @@ class Posts extends AbstractController
 
             // Check for owner
             if ($post->user_id != $_SESSION['user_id']) {
-                redirect('posts');
+                $this->urlHelper->redirect('Posts');
             }
 
             $data = [
@@ -135,7 +149,7 @@ class Posts extends AbstractController
                 'body' => $post->body
             ];
 
-            $this->view('posts/edit', $data);
+            $this->view('Posts/edit', $data);
         }
     }
 
@@ -153,7 +167,7 @@ class Posts extends AbstractController
             'user' => $user
         ];
 
-        $this->view('posts/show', $data);
+        $this->view('Posts/show', $data);
     }
 
     /**
@@ -168,17 +182,17 @@ class Posts extends AbstractController
 
             // Check for owner
             if ($post->user_id != $_SESSION['user_id']) {
-                redirect('posts');
+                $this->urlHelper->redirect('Posts');
             }
 
             if ($this->postModel->deletePost($id)) {
-                flash('post_message', 'Post Removed');
-                redirect('posts');
+                $this->sessionHelper->flash('post_message', 'Post Removed');
+                $this->urlHelper->redirect('Posts');
             } else {
                 die('Something went wrong');
             }
         } else {
-            redirect('posts');
+            $this->urlHelper->redirect('Posts');
         }
     }
 }

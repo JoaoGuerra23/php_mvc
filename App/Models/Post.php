@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Models;
+
+use App\Libraries\Database;
+
 class Post
 {
 
@@ -19,14 +23,14 @@ class Post
     public function getPosts()
     {
         $this->db->query('SELECT *,
-                        posts.id as postId,
-                        users.id as userId,
-                        posts.created_at as postCreated,
-                        users.created_at as userCreated
-                        FROM posts
-                        INNER JOIN users
-                        ON posts.user_id = users.id
-                        ORDER BY posts.created_at DESC
+                        Posts.id as postId,
+                        Users.id as userId,
+                        Posts.created_at as postCreated,
+                        Users.created_at as userCreated
+                        FROM Posts
+                        INNER JOIN Users
+                        ON Posts.user_id = Users.id
+                        ORDER BY Posts.created_at DESC
                         ');
 
         return $this->db->resultSet();
@@ -38,7 +42,7 @@ class Post
      */
     public function addPost($data)
     {
-        $this->db->query('INSERT INTO posts (title, user_id, body) VALUES(:title, :user_id, :body)');
+        $this->db->query('INSERT INTO Posts (title, user_id, body) VALUES(:title, :user_id, :body)');
         // Bind values
         $this->db->bind(':title', $data['title']);
         $this->db->bind(':user_id', $data['user_id']);
@@ -58,7 +62,7 @@ class Post
      */
     public function updatePost($data)
     {
-        $this->db->query('UPDATE posts SET title = :title, body = :body WHERE id = :id');
+        $this->db->query('UPDATE Posts SET title = :title, body = :body WHERE id = :id');
         // Bind values
         $this->db->bind(':id', $data['id']);
         $this->db->bind(':title', $data['title']);
@@ -78,7 +82,7 @@ class Post
      */
     public function getPostById($id)
     {
-        $this->db->query('SELECT * FROM posts WHERE id = :id');
+        $this->db->query('SELECT * FROM Posts WHERE id = :id');
         $this->db->bind(':id', $id);
 
         $row = $this->db->single();
@@ -92,7 +96,7 @@ class Post
      */
     public function deletePost($id)
     {
-        $this->db->query('DELETE FROM posts WHERE id = :id');
+        $this->db->query('DELETE FROM Posts WHERE id = :id');
         // Bind values
         $this->db->bind(':id', $id);
 

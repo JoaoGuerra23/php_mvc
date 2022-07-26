@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Models;
+
+use App\Libraries\Database;
+
 class User
 {
 
@@ -10,7 +14,7 @@ class User
 
     public function __construct()
     {
-        $this->db = new Database;
+        $this->db = new Database();
     }
 
     /**
@@ -22,7 +26,7 @@ class User
      */
     public function register($data)
     {
-        $this->db->query('INSERT INTO users (name, email, password) VALUES(:name, :email, :password)');
+        $this->db->query('INSERT INTO Users (name, email, password) VALUES(:name, :email, :password)');
         // Bind values
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':email', $data['email']);
@@ -46,7 +50,7 @@ class User
      */
     public function login($email, $password)
     {
-        $this->db->query('SELECT * FROM users WHERE email = :email');
+        $this->db->query('SELECT * FROM Users WHERE email = :email');
         $this->db->bind(':email', $email);
 
         $row = $this->db->single();
@@ -68,7 +72,7 @@ class User
      */
     public function findUserByEmail($email)
     {
-        $this->db->query('SELECT * FROM users WHERE email = :email');
+        $this->db->query('SELECT * FROM Users WHERE email = :email');
         // Bind value
         $this->db->bind(':email', $email);
 
@@ -91,7 +95,7 @@ class User
      */
     public function getUserById($id)
     {
-        $this->db->query('SELECT * FROM users WHERE id = :id');
+        $this->db->query('SELECT * FROM Users WHERE id = :id');
         // Bind value
         $this->db->bind(':id', $id);
 

@@ -2,10 +2,20 @@
 
 namespace App\Controllers;
 
+use App\Helpers\SessionHelper;
+use App\Helpers\UrlHelper;
+
 class Users extends AbstractController
 {
+
+    /**
+     * @var mixed
+     */
+    private $userModel;
+
     public function __construct()
     {
+
         $this->userModel = $this->model('User');
     }
 
@@ -73,15 +83,15 @@ class Users extends AbstractController
 
                 // Register User
                 if ($this->userModel->register($data)) {
-                    flash('register_success', 'You are registered and can log in');
-                    redirect('users/login');
+                    $this->sessionHelper->flash('register_success', 'You are registered and can log in');
+                    $this->urlHelper->redirect('Users/login');
                 } else {
                     die('Something went wrong');
                 }
 
             } else {
                 // Load view with errors
-                $this->view('users/register', $data);
+                $this->view('Users/register', $data);
             }
 
         } else {
@@ -98,7 +108,7 @@ class Users extends AbstractController
             ];
 
             // Load view
-            $this->view('users/register', $data);
+            $this->view('Users/register', $data);
         }
     }
 
@@ -151,11 +161,11 @@ class Users extends AbstractController
                 } else {
                     $data['password_err'] = 'Password incorrect';
 
-                    $this->view('users/login', $data);
+                    $this->view('Users/login', $data);
                 }
             } else {
                 // Load view with errors
-                $this->view('users/login', $data);
+                $this->view('Users/login', $data);
             }
 
 
@@ -169,7 +179,7 @@ class Users extends AbstractController
             ];
 
             // Load view
-            $this->view('users/login', $data);
+            $this->view('Users/login', $data);
         }
     }
 
@@ -182,7 +192,7 @@ class Users extends AbstractController
         $_SESSION['user_id'] = $user->id;
         $_SESSION['user_email'] = $user->email;
         $_SESSION['user_name'] = $user->name;
-        redirect('posts');
+        $this->urlHelper->redirect('Posts');
     }
 
     /**
@@ -194,6 +204,6 @@ class Users extends AbstractController
         unset($_SESSION['user_email']);
         unset($_SESSION['user_name']);
         session_destroy();
-        redirect('users/login');
+        $this->urlHelper->redirect('Users/login');
     }
 }

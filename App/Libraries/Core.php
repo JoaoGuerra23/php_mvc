@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Libraries;
+
+use App\Controllers\Pages;
+
 /**
  * App Core Class
  * Creates URL & Loads Core Controller
@@ -25,7 +29,7 @@ class Core
         $url = $this->getUrl();
 
         //Look in controllers for controller for first value
-        if (file_exists('../app/controllers/' . ucwords($url[0]) . '.php')) {
+        if (file_exists('../App/Controllers/' . ucwords($url[0]) . '.php')) {
             //If exists, set as controller
             $this->currentController = ucwords($url[0]);
             //Unset 0 Index
@@ -33,10 +37,12 @@ class Core
         }
 
         //Require de controller
-        require_once '../app/controllers/' . $this->currentController . '.php';
+        //require_once '../App/Controllers/' . $this->currentController . '.php';
 
         //Instantiate controller class
-        $this->currentController = new $this->currentController;
+        $class = "\App\Controllers\\" . $this->currentController;
+
+        $this->currentController = new $class;
 
         //Debugging
         //var_dump($url, $_GET, $_SERVER['REQUEST_URI']);
