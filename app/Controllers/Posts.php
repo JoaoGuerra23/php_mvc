@@ -1,6 +1,8 @@
 <?php
 
-class Posts extends Controller
+namespace App\Controllers;
+
+class Posts extends AbstractController
 {
     public function __construct()
     {

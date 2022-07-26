@@ -1,6 +1,8 @@
 <?php
 
-class Users extends Controller
+namespace App\Controllers;
+
+class Users extends AbstractController
 {
     public function __construct()
     {

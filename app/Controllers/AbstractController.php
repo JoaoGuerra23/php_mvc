@@ -1,10 +1,12 @@
 <?php
 
+namespace App\Controllers;
+
 /**
  * Base Controller
  * Loads the models and views
  */
-class Controller
+abstract class AbstractController
 {
 
     /**

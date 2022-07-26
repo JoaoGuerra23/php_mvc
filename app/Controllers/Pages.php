@@ -1,11 +1,9 @@
 <?php
 
-class Pages extends Controller
-{
-    public function __construct()
-    {
+namespace App\Controllers;
 
-    }
+class Pages extends AbstractController
+{
 
     /**
      * @return void
