@@ -2,6 +2,9 @@
 
 namespace App\Libraries;
 
+use PDO;
+use PDOException;
+
 /**
  * PDO Database class
  * Connect to database

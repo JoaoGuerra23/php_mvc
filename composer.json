@@ -2,7 +2,9 @@
     "name": "joaoguerra23/php_mvc",
     "description": "My initial test project to starting to work with PHP Language.",
     "type": "project",
-    "require": {},
+    "require": {
+      "ext-pdo": "*"
+    },
     "autoload": {
         "psr-4": {"App\\": "App/"}
     }

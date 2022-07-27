@@ -2,8 +2,6 @@
 
 namespace App\Libraries;
 
-use App\Controllers\Pages;
-
 /**
  * App Core Class
  * Creates URL & Loads Core Controller
@@ -37,16 +35,10 @@ class Core
         }
 
         //Require de controller
-        //require_once '../App/Controllers/' . $this->currentController . '.php';
-
-        //Instantiate controller class
         $class = "\App\Controllers\\" . $this->currentController;
 
+        //Instantiate controller class
         $this->currentController = new $class;
-
-        //Debugging
-        //var_dump($url, $_GET, $_SERVER['REQUEST_URI']);
-        //exit();
 
         //Check for second part of url
         if (isset($url[1])) {

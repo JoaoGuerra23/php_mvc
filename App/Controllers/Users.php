@@ -2,9 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Helpers\SessionHelper;
-use App\Helpers\UrlHelper;
-
 class Users extends AbstractController
 {
 
@@ -15,7 +12,7 @@ class Users extends AbstractController
 
     public function __construct()
     {
-
+        parent::__construct();
         $this->userModel = $this->model('User');
     }
 

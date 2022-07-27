@@ -2,9 +2,6 @@
 
 namespace App\Controllers;
 
-use App\Helpers\SessionHelper;
-use App\Helpers\UrlHelper;
-
 class Posts extends AbstractController
 {
     /**
@@ -19,7 +16,7 @@ class Posts extends AbstractController
 
     public function __construct()
     {
-
+        parent::__construct();
         if (!$this->sessionHelper->isLoggedIn()) {
             $this->urlHelper->redirect('users/login');
         }
